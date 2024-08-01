@@ -1,0 +1,38 @@
+{
+  "users": [
+    {
+      "id": "bba0",
+      "first_name": "santiago",
+      "last_name": "jurado",
+      "address": "123123sadas",
+      "type_doc": "cédula",
+      "email": "sajb1367@gmail.com",
+      "phone": "123123",
+      "type": "1097094203"
+    },
+    {
+      "id": "520e",
+      "first_name": "Juan Francisco",
+      "last_name": "García Flores",
+      "address": "C. Montes Urales 445",
+      "type_doc": "cédula",
+      "email": "ejemplo@ejemplo.mx",
+      "phone": "5553428400",
+      "type": "213123213"
+    },
+    {
+      "id": "52c5",
+      "first_name": "Juan Francisco",
+      "last_name": "García Flores",
+      "address": "C. Montes Urales 445",
+      "type_doc": "cédula",
+      "email": "ejemplo@ejemplo.mx",
+      "phone": "5553428400",
+      "type": "1097094203"
+    },
+    {
+      "id": "16f8"
+    }
+  ],
+  "documentos": []
+}
