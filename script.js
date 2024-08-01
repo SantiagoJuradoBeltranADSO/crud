@@ -3,6 +3,7 @@ import correo from './modulo/correo.js';
 import numeros from './modulo/numeros.js';
 import letras from './modulo/letras.js';
 import is_valid from './modulo/is_valid.js';
+import solicitud from './modulo/ajax.js';
 const $formulario = document.querySelector("form");
 const nombre = document.querySelector("#nombre");
 const apellido = document.querySelector("#apellido");
@@ -13,8 +14,38 @@ const documento = document.querySelector("#documento");
 const politicas = document.querySelector("#politicas");
 const button = document.querySelector('#button')
 const email = document.querySelector("#email")
+const documentos = () => {
+    const fragmento = document.createDocumentFragment();
+    let seleccionar = document.createElement("option");
+    seleccionar.value = "";
+    seleccionar.text = "Seleccionar";
+    fragmento.appendChild(seleccionar);
+    fetch('http://localhost:3000/documents')
+        .then((response) => response.json())
+        .then((data) => {
+            data.forEach(element => {
+                console.log(element); // Asegúrate de que `element` esté definido en el contexto
+                let option = document.createElement("option");
+                option.value = element.id;
+                option.text = element.nombre;
+                fragmento.appendChild(option);
+            });
+            tipo_documento.appendChild(fragmento); // Añade el fragmento al select
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+};
 
-//quitar el borde rojo al momento que se ingresen los datos y la casilla deje de estar vacia
+documentos();
+
+const listar =  () =>{
+  let data=  solicitud("users");
+console.log(data)
+}
+listar()
+
+
 const remover = (e, input) =>{
     if (input.value != "") {
         input.classList.remove("error");
@@ -24,7 +55,20 @@ const remover = (e, input) =>{
         input.classList.add("error");
     }
 }
+
+const vaciarCampos = () => {
+    const campos = [$formulario.elements];
+    campos.forEach(campo => {
+        if (campo.type !== 'submit' && campo.type !== 'checkbox') {
+            campo.value = '';
+        } else if (campo.type === 'checkbox') {
+            campo.checked = false;
+        }
+    });
+};
+
 $formulario.addEventListener("submit", (event) => {
+    event.preventDefault(); // Evita el envío del formulario por defecto
     let response = is_valid(event, "form [required]");
     if (response) {
         alert("Formulario enviado");
@@ -37,8 +81,7 @@ $formulario.addEventListener("submit", (event) => {
             phone: telefono.value,
             type: documento.value
         };
-        if (response) {
-              fetch('http://localhost:3000/users', {
+        fetch('http://localhost:3000/users', {
             method: 'POST',
             body: JSON.stringify(data),
             headers: {
@@ -48,6 +91,7 @@ $formulario.addEventListener("submit", (event) => {
         .then(response => {
             if (response.ok) {
                 alert("Formulario enviado con éxito");
+                vaciarCampos(); // Vacía los campos después de enviar el formulario
             } else {
                 alert("Error al enviar el formulario");
             }
@@ -56,13 +100,12 @@ $formulario.addEventListener("submit", (event) => {
             console.error('Error:', error);
             alert("Error al enviar el formulario");
         });
-
     } else {
         console.error("Por favor, completa todos los campos requeridos.");
     }
+});
 
-}
-})
+
 
 nombre.addEventListener("blur", (event) => {
     remover(event, nombre);
