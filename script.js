@@ -24,13 +24,13 @@ const documentos = () => {
         .then((response) => response.json())
         .then((data) => {
             data.forEach(element => {
-                console.log(element); // Asegúrate de que `element` esté definido en el contexto
+                console.log(element); 
                 let option = document.createElement("option");
                 option.value = element.id;
                 option.text = element.nombre;
                 fragmento.appendChild(option);
             });
-            tipo_documento.appendChild(fragmento); // Añade el fragmento al select
+            tipo_documento.appendChild(fragmento); 
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -57,55 +57,44 @@ const remover = (e, input) =>{
 }
 
 const vaciarCampos = () => {
-    const campos = [$formulario.elements];
-    campos.forEach(campo => {
-        if (campo.type !== 'submit' && campo.type !== 'checkbox') {
-            campo.value = '';
-        } else if (campo.type === 'checkbox') {
-            campo.checked = false;
-        }
-    });
-};
+nombre.value="" ;
+apellido.value="" ;
+direccion.value="" ;
+email.value="" ;
+telefono.value="" ;
+documento.value="" ;
+tipo_documento.selectedIndex = 0;
+politicas.value = false;
 
-$formulario.addEventListener("submit", (event) => {
-    event.preventDefault(); // Evita el envío del formulario por defecto
+};
+$formulario.addEventListener("submit" , (event)=>{
     let response = is_valid(event, "form [required]");
     if (response) {
-        alert("Formulario enviado");
-        const data = {
+        const data ={
             first_name: nombre.value,
             last_name: apellido.value,
             address: direccion.value,
-            type_doc: tipo_documento.value,
-            email: email.value,
+            type_id: tipo_documento.value,
+            email: correo.value,
             phone: telefono.value,
-            type: documento.value
-        };
-        fetch('http://localhost:3000/users', {
-            method: 'POST',
+            document: documento.value,
+        }
+        fetch('http://localhost:3000/users',{
+            method: "POST",
             body: JSON.stringify(data),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
-            }
+            },
         })
-        .then(response => {
-            if (response.ok) {
-                alert("Formulario enviado con éxito");
-                vaciarCampos(); // Vacía los campos después de enviar el formulario
-            } else {
-                alert("Error al enviar el formulario");
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert("Error al enviar el formulario");
+        .then((response) => response.json())
+        .then((json) => {
+         vaciarCampos()
+
         });
-    } else {
-        console.error("Por favor, completa todos los campos requeridos.");
+    }else{
+        alert("campos nulos")
     }
 });
-
-
 
 nombre.addEventListener("blur", (event) => {
     remover(event, nombre);
@@ -140,6 +129,7 @@ politicas.addEventListener("change", (event) => {
     console.log(event.target.checked);
     if (event.target.checked) {
         button.removeAttribute("disabled");
+
     } else {
         button.setAttribute("disabled", "");
     }

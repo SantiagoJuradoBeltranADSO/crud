@@ -5,7 +5,7 @@ const nombre = document.querySelector("#nombre");
 const boton = document.querySelector("#button");
 
 formulario.addEventListener("submit", (event) => {
-    event.preventDefault(); // Evita el envío del formulario por defecto
+    event.preventDefault(); 
     let respuesta = is_valid(event, "form [required]");
     const data = {
         nombre: nombre.value,
