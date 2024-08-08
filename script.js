@@ -4,6 +4,7 @@ import numeros from './modulo/numeros.js';
 import letras from './modulo/letras.js';
 import is_valid from './modulo/is_valid.js';
 import solicitud from './modulo/ajax.js';
+
 const $formulario = document.querySelector("form");
 const nombre = document.querySelector("#nombre");
 const apellido = document.querySelector("#apellido");
@@ -14,6 +15,11 @@ const documento = document.querySelector("#documento");
 const politicas = document.querySelector("#politicas");
 const button = document.querySelector('#button')
 const email = document.querySelector("#email")
+const tp_users =document.querySelector("#tb_users").content
+const fragmento = document.createDocumentFragment();
+const tbody = document.querySelector("tbody")
+
+console.log(tp_users)
 const documentos = () => {
     const fragmento = document.createDocumentFragment();
     let seleccionar = document.createElement("option");
@@ -24,7 +30,7 @@ const documentos = () => {
         .then((response) => response.json())
         .then((data) => {
             data.forEach(element => {
-                console.log(element); 
+                //console.log(element); 
                 let option = document.createElement("option");
                 option.value = element.id;
                 option.text = element.nombre;
@@ -39,9 +45,24 @@ const documentos = () => {
 
 documentos();
 
-const listar =  () =>{
-  let data=  solicitud("users");
-console.log(data)
+const listar = async() =>{
+const data = await solicitud ("users")
+data.forEach(element=>{
+    tp_users.querySelector(".nombre").textContent= element.first_name
+    tp_users.querySelector(".apellido").textContent= element.last_name
+    tp_users.querySelector(".direccion").textContent= element.address
+    tp_users.querySelector(".tipo_documento").textContent= element.type_id
+    tp_users.querySelector(".email").textContent= element.email
+    tp_users.querySelector(".telefono").textContent= element.phone
+    tp_users.querySelector(".numero_documento").textContent= element.document
+    const clone = document.importNode(tp_users,true)
+    fragmento.appendChild(clone);
+})
+tbody.appendChild(fragmento)
+}
+const createRow = (data)=>{
+    const tr = tbody.insertRow(-1 )
+
 }
 listar()
 
@@ -75,7 +96,7 @@ $formulario.addEventListener("submit" , (event)=>{
             last_name: apellido.value,
             address: direccion.value,
             type_id: tipo_documento.value,
-            email: correo.value,
+            email: email.value,
             phone: telefono.value,
             document: documento.value,
         }
@@ -89,7 +110,7 @@ $formulario.addEventListener("submit" , (event)=>{
         .then((response) => response.json())
         .then((json) => {
          vaciarCampos()
-
+        createRow(json)
         });
     }else{
         alert("campos nulos")

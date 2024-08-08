@@ -1,3 +1,32 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.contenedor {
+       max-width: 1800px;
+       margin: 0 auto; 
+}
+.mt-40{
+    margin-top: 40px;
+}
+.mb-40{
+    margin-bottom: 40px;
+}
+
+.layaut{
+    display: grid;
+    grid-template-areas:"form table" ;
+    grid-template-columns: 400px 1fr;
+    gap: 1rem;
+}
+.contenedor1 {
+    border-color: lightblue;
+}
+.contenedor2 {
+    border-color: lightgreen;
+}
+.form{}
 .a{
     display: flex;
     justify-content: center;
@@ -6,8 +35,7 @@ h2 {
     color: #333;
 }
 form {
-    max-width: 400px;
-    width: 400px;
+    
     margin: 0 auto;
     padding: 1em;
     border: 1px solid #ffffff;

@@ -1,7 +1,8 @@
+import { URL } from "./config.js";
 const solicitud = async (url) => {
-    const response = await fetch(`http://localhost:3000/${url}`);
-    const json = await response.json();
-    return json;
+    let solicitud = await fetch(`${URL}/${url}`);
+    let data = await solicitud.json();
+    return data;
 };
 
 
