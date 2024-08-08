@@ -61,7 +61,21 @@ data.forEach(element=>{
 tbody.appendChild(fragmento)
 }
 const createRow = (data)=>{
-    const tr = tbody.insertRow(-1 )
+    const tr = tbody.insertRow(-1);
+    const tdnombre=tr.insertCell(0);
+    const tdapellido=tr.insertCell(1);
+    const tdemail=tr.insertCell(2);
+    const tddireccion=tr.insertCell(3);
+    const tdtelefono=tr.insertCell(4);
+    const tdnumero_documento=tr.insertCell(5);
+    const tdtipo_documento=tr.insertCell(6);
+    tdnombre.textContent=data.first_name;
+    tdapellido.textContent=data.last_name;
+    tdtipo_documento.textContent=data.type_id;
+    tdemail.textContent=data.email;
+    tddireccion.textContent=data.address;
+    tdtelefono.textContent=data.phone;
+    tdnumero_documento.textContent=data.document;
 
 }
 listar()
